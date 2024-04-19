@@ -37,7 +37,6 @@ body{
 /* Creating custon size for .nav-link */
 .nav-link{
    font-size: 1.2rem !important;
-   margin-right: 4px;
    font-weight: 800;
 }
 
