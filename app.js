@@ -20,8 +20,8 @@ const MongoStore = require('connect-mongo');
 
 // require('dotenv').config();
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
-const dbUrl = process.env.ATLASDB_URL;
+const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+// const dbUrl = process.env.ATLASDB_URL;
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -63,7 +63,7 @@ main()
   });
 
   async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect(MONGO_URL);
   }
   
 
@@ -169,7 +169,17 @@ app.post("/listings/:id/reviews", validateReview, wrapAsync(async (req, res, nex
   await listing.save();
   
   res.redirect(`/listings/${listing.id}`);
-}))
+}));
+
+//Delete Review Route
+app.delete("/listings/:id/reviews/:reviewId", (async(req, res)=>{
+  let {id, reviewId}=req.params;
+
+  await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+  await Review.findById(reviewId);
+
+  res.redirect(`/listings/${id}`);
+}));
 
 //Show Route
 app.get("/listings/:id", wrapAsync(async (req, res, next) => {
@@ -213,3 +223,4 @@ app.use((err, req, res, next) => {
 app.listen(8080, () => {
   console.log("server is listening to port 8080");
 });
+
