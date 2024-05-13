@@ -25,12 +25,12 @@ app.get("/register", (req, res)=>{
     req.session.name= name;
     req.flash("success", "user registered successfully!")
     res.redirect("/hello")
-})
+});
 
 app.get("/hello", (req, res) =>{
     // res.send(`Hello, ${req.session.name}`)
-    console.log(req.flash("success"))
-    res.render("page.ejs", {name: req.session.name, msg: req.flash("success") });
+    res.locals.messages = req.flash("success");
+    res.render("page.ejs", {name: req.session.name });
 });
 
 // app.get("/reqcount", (req, res) => {
@@ -45,8 +45,8 @@ app.get("/hello", (req, res) =>{
 
 app.get("/", (req, res)=>{
     res.send("Test Successful");
-})
+});
 
 app.listen(8080, (req, res) =>{
     console.log(`Server is running at https://localhost:${8080}`);
-})
+});
