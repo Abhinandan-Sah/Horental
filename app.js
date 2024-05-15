@@ -8,6 +8,7 @@ const ExpressError = require("./utils/ExpressError.js");
 const { log } = require("console");
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const flash = require("connect-flash");
 require('dotenv').config();
 
 const listings = require("./routes/listing.js");
@@ -36,6 +37,12 @@ const sessionOptions = {
 }
 
 app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  next();
+})
 
 main()
   .then(() => {
