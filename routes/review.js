@@ -16,7 +16,7 @@ const validateReview = (req, res, next) =>{
       else{
         next();
       }
-  }
+}
 
 
 //Reviews
