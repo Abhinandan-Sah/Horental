@@ -1,24 +1,66 @@
-<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
-  <div class="container-fluid" >
-    <a class="navbar-brand mx-lg-4 mx-xl-5"  href="/home"><img src="../img/confort-logo.png" width="100px" height="80px" alt="Confort logo"></a>
-    
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home"><img src="../img/confort-logo.png" width="100px" height="80px"
+        alt="Confort logo"></a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    
-    <div class="collapse navbar-collapse col-5  offset-xl-1 " id="navbarNavAltMarkup" ">
+
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" ">
       
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-        <div class="navbar-nav offset-xl-1 p-xl-3">
+      
+      <div class="navbar-nav">
         <a class="nav-link" href="/home">Home</a>
         <a class="nav-link" href="/listings">Explore</a>
         <a class="nav-link" href="/listings/new">List your home</a>
-        <a class="nav-link" href="/signup">SignUp</a>
+      </div>
+
+      
+
+      <div class="navbar-nav ms-auto ">
+        <% if(!currUser) { %>
+        <a class="nav-link" href="/signup">Sign Up</a>
+        <a class="nav-link" href="/login">Log In</a>
+        <% } %>
+        <% if(currUser) { %>
+        <a class="nav-link" href="/logout">Log Out</a>
+        <% } %>
         <a href="/book" class="btn edit-btn py-2">Book now</a>
       </div>
+
     </div>
+    <form class="m-auto d-flex my-2 my-lg-0 position-absolute top-50 start-50 translate-middle">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
   </div>
 </nav>
+
+<style>
+  @media (max-width: 991.98px) {
+    .navbar-nav {
+      text-align: center;
+    }
+    .navbar-nav .nav-link {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+    .form-control {
+      width: 100%;
+    }
+    .btn-outline-success {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+  }
+  @media (max-width: 770px) {
+    .form-control {
+      margin-bottom: 0.5rem;
+    }
+    .navbar-nav {
+      flex-direction: column;
+    }
+  }
+</style>
