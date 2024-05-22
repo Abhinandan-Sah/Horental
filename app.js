@@ -84,6 +84,9 @@ main()
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
+// app.post("/listings/:id/reviews/", isLoggedIn, (req, res) => {
+//   res.redirect("/listings")
+// })
 app.use("/", userRouter);
 
 // Home page

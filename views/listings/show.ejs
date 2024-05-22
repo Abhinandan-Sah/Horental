@@ -10,13 +10,14 @@
       alt="listing_image"
     />
     <div class="card-body">
-      <p class="card-text">
+      <!-- <p class="card-text"> -->
+        <p class="card-text">Owned by: <i><%=listing.owner %></i></p>
         <br />
-        <%= listing.title %> <br />
+        <p class="card-text"><%= listing.description %></p> <br />
         
-        <%= listing.location %> <br />
-        <%= listing.country %> <br />
-      </p>
+        <p class="card-text"><%= listing.location %></p> <br />
+        <p class="card-text"><%= listing.country %></p> <br />
+      <!-- </p> -->
       <a href="/book" class="btn bg-success btn-outline-dark text-white">Book now</a>
     </div>
   </div>
@@ -36,8 +37,8 @@
     <hr />
     <h4>Leave a Review</h4>
     <form
-      action="/listings/<%= listing.id %>/reviews"
       method="POST"
+      action="/listings/<%= listing._id %>/reviews"
       novalidate
       class="needs-validation"
     >

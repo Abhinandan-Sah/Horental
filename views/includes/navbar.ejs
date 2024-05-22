@@ -8,8 +8,11 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" ">
-      
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" >
+      <form class="m-auto d-flex my-2 my-lg-0 position-absolute top-50 start-50 translate-middle">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
       
       <div class="navbar-nav">
         <a class="nav-link" href="/home">Home</a>
@@ -19,7 +22,7 @@
 
       
 
-      <div class="navbar-nav ms-auto ">
+      <div class="navbar-nav ms-auto nav-left">
         <% if(!currUser) { %>
         <a class="nav-link" href="/signup">Sign Up</a>
         <a class="nav-link" href="/login">Log In</a>
@@ -31,10 +34,7 @@
       </div>
 
     </div>
-    <form class="m-auto d-flex my-2 my-lg-0 position-absolute top-50 start-50 translate-middle">
-      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+    
   </div>
 </nav>
 
@@ -63,4 +63,12 @@
       flex-direction: column;
     }
   }
+  @media (min-width: 197px) and (max-width: 992px) {
+    .navbar-brand img {
+      margin-top: -10px;
+      height: 75px;
+    }
+  }
+  
+
 </style>
