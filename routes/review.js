@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const {reviewSchema} = require("../schema.js");
 const Review = require("../models/review.js");
-const listing = require("../models/listing.js");
+const Listing = require("../models/listing.js");
 
 
 const validateReview = (req, res, next) =>{
@@ -21,16 +21,17 @@ const validateReview = (req, res, next) =>{
 
 //Reviews
 // Post Route
-router.post("/", validateReview,(async (req, res, next) => {
+router.post("/", (req, res, next) => {
+  console.log("hi");
     // console.log(req.params.id);
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-    listing.reviews.push(newReview);
+    // let listing = await Listing.findById(req.params.id);
+    // let newReview = new Review(req.body.review);
+    // listing.reviews.push(newReview);
   
-    await newReview.save();
-    await listing.save();
+    // await newReview.save();
+    // await listing.save();
     
-    res.redirect(`/listings/${listing.id}`);
+    // res.redirect(`/listings/${listing.id}`);
 
     // try {
     //   const listing = await Listing.findById(req.params.id);
@@ -46,7 +47,7 @@ router.post("/", validateReview,(async (req, res, next) => {
     // } catch (err) {
     //   next(err);
     // }
-  }));
+  });
   
   //Delete Review Route
   router.delete("/:reviewId", (async(req, res)=>{

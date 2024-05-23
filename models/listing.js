@@ -46,7 +46,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require("./review.js");
-const User = require("./user.js"); // Ensure this path is correct
+const { schema } = require("../schema.js");
 
 const listingSchema = new Schema({
   title: {
@@ -69,13 +69,13 @@ const listingSchema = new Schema({
   reviews: [
     {
       type: Schema.Types.ObjectId,
-      ref: "Review"
+      ref: "Review",
     }
   ],
   owner: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
-  },
+      type: Schema.Types.ObjectId,
+      ref: "User"
+  }
 });
 
 listingSchema.post("findOneAndDelete", async(listing) => {

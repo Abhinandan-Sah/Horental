@@ -34,12 +34,13 @@ router.get(
     "/:id",
     wrapAsync(async (req, res, next) => {
       const { id } = req.params;
-      const listing = await Listing.findById(id).populate("reviews").populate("owner");
+      const listingOwner = await Listing.findById(id).populate("owner");
+      const listing = await Listing.findById(id).populate("reviews");
       if(!listing){
         req.flash("error", "Listing Page for your request doesn't exist!");
         res.redirect("/listings");
       }
-      console.log(listing);
+      // console.log(listingOwner);
       res.render("listings/show.ejs", { listing });
     })
   );
