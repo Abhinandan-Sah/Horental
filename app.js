@@ -72,15 +72,7 @@ main()
     await mongoose.connect(MONGO_URL);
   }
 
-// app.get("/demouser", async(req, res) =>{
-//   let fakeUser = new User({
-//     email: "student@gmail.com",
-//     username: "delta-student"
-//   });
 
-//   const registerdUser = await User.register(fakeUser, "helloworld");
-//   res.send(registerdUser);
-// });  
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
