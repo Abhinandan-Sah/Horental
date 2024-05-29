@@ -101,9 +101,9 @@ app.get("/login", (req, res) => {
 
 
 
-app.all("*", (req, res, next)=> {
-  next(new ExpressError(404, "Page Not Found!"));
-});
+// app.all("*", (req, res, next)=> {
+//   next(new ExpressError(404, "Page Not Found!"));
+// });
 
 //middleware for error handling
 app.use((err, req, res, next) => {

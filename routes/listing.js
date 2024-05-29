@@ -40,7 +40,7 @@ router.get(
         req.flash("error", "Listing Page for your request doesn't exist!");
         res.redirect("/listings");
       }
-      // console.log(listingOwner);
+      console.log(listing.owner.username);
       res.render("listings/show.ejs", { listing });
     })
   );

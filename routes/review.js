@@ -21,32 +21,32 @@ const validateReview = (req, res, next) =>{
 
 //Reviews
 // Post Route
-router.post("/", (req, res, next) => {
-  console.log("hi");
+router.post("/", async(req, res, next) => {
+  // console.log("hi");
     // console.log(req.params.id);
-    // let listing = await Listing.findById(req.params.id);
-    // let newReview = new Review(req.body.review);
-    // listing.reviews.push(newReview);
+    let listing = await Listing.findById(req.params.id);
+    let newReview = new Review(req.body.review);
+    listing.reviews.push(newReview);
   
-    // await newReview.save();
-    // await listing.save();
+    await newReview.save();
+    await listing.save();
     
-    // res.redirect(`/listings/${listing.id}`);
+    res.redirect(`/listings/${listing.id}`);
 
-    // try {
-    //   const listing = await Listing.findById(req.params.id);
-    //   if (!listing) {
-    //     throw new ExpressError(404, "Listing not found");
-    //   }
-    //   const newReview = new Review(req.body.review);
-    //   listing.reviews.push(newReview);
-    //   await newReview.save();
-    //   await listing.save();
-    //   req.flash("success", "New Review Created!");
-    //   res.redirect(`/listings/${listing._id}`);
-    // } catch (err) {
-    //   next(err);
-    // }
+    try {
+      const listing = await Listing.findById(req.params.id);
+      if (!listing) {
+        throw new ExpressError(404, "Listing not found");
+      }
+      const newReview = new Review(req.body.review);
+      listing.reviews.push(newReview);
+      await newReview.save();
+      await listing.save();
+      req.flash("success", "New Review Created!");
+      res.redirect(`/listings/${listing._id}`);
+    } catch (err) {
+      next(err);
+    }
   });
   
   //Delete Review Route
