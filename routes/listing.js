@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const {listingSchema} = require("../schema.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 
 
 const validateListing = (req, res, next) => {
@@ -18,10 +18,7 @@ const validateListing = (req, res, next) => {
 };
 
 //Index Route
-router.get("/", async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
-  });
+router.get("/", wrapAsync(index));
 
 //New Route
 router.get("/new", isLoggedIn, (req, res) => {
