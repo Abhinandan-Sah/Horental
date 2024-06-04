@@ -75,10 +75,8 @@ main()
 
 
 app.use("/listings", listingRouter);
-app.use("/listings/:id/reviews", reviewRouter);
-// app.post("/listings/:id/reviews/", isLoggedIn, (req, res) => {
-//   res.redirect("/listings")
-// })
+// app.use("/listings/:id/reviews", reviewRouter);
+
 app.use("/", userRouter);
 
 // Home page
@@ -99,11 +97,20 @@ app.get("/login", (req, res) => {
   res.render("listings/login.ejs");
 });
 
+app.post("/listings/:id/reviews", isLoggedIn , (async (req, res, next) => {
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+  listing.reviews.push(newReview);
 
+  await newReview.save();
+  await listing.save();
+  
+  res.redirect(`/listings/${listing.id}`);
+}))
 
-// app.all("*", (req, res, next)=> {
-//   next(new ExpressError(404, "Page Not Found!"));
-// });
+app.all("*", (req, res, next)=> {
+  next(new ExpressError(404, "Page Not Found!"));
+});
 
 //middleware for error handling
 app.use((err, req, res, next) => {

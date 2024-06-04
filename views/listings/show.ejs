@@ -10,12 +10,10 @@
       alt="listing_image"
     />
     <div class="card-body">
-      <!-- <p class="card-text"> -->
-        <p class="card-text">Owned by: <i><%=listing.owner %></i></p>
-        <p class="card-text">Email id: <i><%=listing.email %></i></p>
+        <p class="card-text"><b>Owned by: <i><%= listing.owner ?  listing.owner.username : 'Unknown Owner' %></b></i></p>
         <br />
         <p class="card-text"><%= listing.description %></p> <br />
-        
+        <p class="card-text">&#8377;<%= listing.price.toLocaleString("en-IN") %></p>
         <p class="card-text"><%= listing.location %></p> <br />
         <p class="card-text"><%= listing.country %></p> <br />
       <!-- </p> -->
@@ -38,8 +36,8 @@
     <hr />
     <h4>Leave a Review</h4>
     <form
-      method="POST"
       action="/listings/<%= listing._id %>/reviews"
+      method="POST"
       novalidate
       class="needs-validation"
     >
@@ -78,7 +76,7 @@
       <% for(review of listing.reviews) { %>
       <div class="card col-5 ms-3 mb-3">
         <div class="card-body">
-          <h5 class="card-title">Jane Doe</h5>
+          <h5 class="card-title"> jon doe</h5>
           <p class="card-text"><%= review.comment %></p>
           <p class="card-text"><%= review.rating %> star</p>
           <form class="mb-3" method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">

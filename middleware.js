@@ -1,3 +1,7 @@
+const {listingSchema} = require("./schema.js");
+const {reviewSchema} = require("./schema.js");
+
+
 module.exports.isLoggedIn = (req, res, next) =>{
     if(!req.isAuthenticated()){
         req.flash("error", "you must be logged in to create listing!");
@@ -21,4 +25,15 @@ module.exports.validateListing = (req, res, next) => {
   } else {
     next();
   }
+};
+
+module.exports.validateReview = (req, res, next) => {
+  let {error} = reviewSchema.validate(req.body);
+      if(error){
+        let errMsg = error.details.map((el) => el.message).join(",");
+        throw new ExpressError(400, errMsg);
+      }
+      else{
+        next();
+      }
 };
