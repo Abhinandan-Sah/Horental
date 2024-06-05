@@ -11,16 +11,34 @@ const MongoStore = require('connect-mongo');
 const flash = require("connect-flash");
 const passport = require("passport"); 
 const LocalStrategy = require("passport-local");   
-const User = require("./models/user.js");                                                                                             
+const User = require("./models/user.js");
+const { isLoggedIn , validateReview, isReviewAuthor} = require("./middleware.js");
+const Review = require("./models/review.js");                                                                                         
 require('dotenv').config();
+const Listing= require("./models/listing.js");
+const wrapAsync = require("./utils/wrapAsync.js");
+
 
 const listingRouter = require("./routes/listing.js");
-const reviewRouter = require("./routes/review.js");
+// const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
-const { isLoggedIn } = require("./middleware.js");
+
 
 const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 // const dbUrl = process.env.ATLASDB_URL;
+
+
+main()
+  .then(() => {
+    console.log("connected to DB");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
+  async function main() {
+    await mongoose.connect(MONGO_URL);
+  }
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -28,6 +46,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+
+// app.post("/listings/:id/reviews", (req, res)=>{
+//   console.log("working fine");
+// })
+
+
+
+
+
 
 const sessionOptions = {
   secret: "mysupersecretcode",
@@ -51,6 +78,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -58,26 +86,38 @@ app.use((req, res, next) => {
   next();
 });
 
+// Review Section
+app.post("/listings/:id/reviews", isLoggedIn, wrapAsync(async(req, res)=>{
+  const {id} = req.params.id;
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+  newReview.author = req.user._id;
+  listing.reviews.push(newReview);
+  await newReview.save();
+  await listing.save();
+  req.flash("success", "New Review Created!");
+  res.redirect(`/listings/${listing._id}`);
+}));
 
 
-main()
-  .then(() => {
-    console.log("connected to DB");
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+app.delete("/listings/:id/reviews/:reviewId", isLoggedIn, isReviewAuthor, wrapAsync(async(req, res)=>{
+  let {id, reviewId} = req.params;
 
-  async function main() {
-    await mongoose.connect(MONGO_URL);
-  }
-
-
+  await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+  await Review.findByIdAndDelete(reviewId);
+  req.flash("error", "Review has been Successfully deleted!");
+  res.redirect(`/listings/${id}`);
+}));
+// Ending of Review Section
 
 app.use("/listings", listingRouter);
 // app.use("/listings/:id/reviews", reviewRouter);
-
 app.use("/", userRouter);
+
+
+
+
+
 
 // Home page
 app.get("/", (req, res) => {
@@ -97,24 +137,17 @@ app.get("/login", (req, res) => {
   res.render("listings/login.ejs");
 });
 
-app.post("/listings/:id/reviews", isLoggedIn , (async (req, res, next) => {
-  let listing = await Listing.findById(req.params.id);
-  let newReview = new Review(req.body.review);
-  listing.reviews.push(newReview);
 
-  await newReview.save();
-  await listing.save();
-  
-  res.redirect(`/listings/${listing.id}`);
-}))
 
 app.all("*", (req, res, next)=> {
+  console.log("error");
   next(new ExpressError(404, "Page Not Found!"));
 });
 
 //middleware for error handling
 app.use((err, req, res, next) => {
   let {statusCode=500, message = "Something went wrong!" } = err;
+  console.error(err);
   res.status(statusCode).render("error.ejs", {message});
 
 })

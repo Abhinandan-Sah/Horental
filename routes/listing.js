@@ -25,12 +25,12 @@ router.get(
     "/:id",
     wrapAsync(async (req, res, next) => {
       const { id } = req.params;
-      const listing = await Listing.findById(id).populate("reviews").populate("owner");
+      const listing = await Listing.findById(id).populate({path:"reviews", populate:{path:"author"}}).populate("owner");
       if(!listing){
         req.flash("error", "Listing Page for your request doesn't exist!");
         res.redirect("/listings");
       }
-      console.log(listing);
+      // console.log(listing);
       res.render("listings/show.ejs", { listing });
     })
   );
@@ -51,7 +51,7 @@ router.post(
 //Edit Route
 router.get(
   "/:id/edit",
-  isLoggedIn,
+  isLoggedIn, isOwner,
   wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -67,7 +67,7 @@ router.get(
 //Update Route
 router.put(
   "/:id",
-  isLoggedIn,
+  isLoggedIn, isOwner,
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
@@ -78,7 +78,7 @@ router.put(
 
 //Delete Route
 router.delete(
-  "/:id",
+  "/:id", isLoggedIn, isOwner,
   wrapAsync(async (req, res, next) => {
     let { id } = req.params;
     let deletedListing = await Listing.findByIdAndDelete(id);

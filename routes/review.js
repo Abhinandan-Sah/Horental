@@ -1,41 +1,31 @@
 const express = require("express");
-const router = express.Router({mergeParams: true});
-const wrapAsync = require("../utils/wrapAsync.js");
-const ExpressError = require("../utils/ExpressError.js");
-const Review = require("../models/review.js");
+const wrapAsync = require("../utils/wrapAsync");
+const { validateReview, isLoggedIn } = require("../middleware");
 const Listing = require("../models/listing.js");
-const {validateReview, isLoggedIn} = require("../middleware.js");
+const Review= require("../models/review.js");
+const router = express.Router({mergeParams: true});
 
 //Reviews
-// Post Route
-router.post("/", isLoggedIn, async(req, res) => {
+//Post Review Route
+router.post("/:id/reviews", validateReview, isLoggedIn, wrapAsync(async(req, res)=>{
+  console.log(req.params.id);
+  let {id} = require(req.params.id);
   let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
+  let newReview = new Review(req.body.review);
 
-    newReview.author = req.user._id;
-    // console.log(newReview)
+  listing.reviews.push(newReview);
+  await newReview.save();
+  await listing.save();
+  res.redirect(`/listings`);
+}));
 
-    listing.reviews.push(newReview);
+router.delete("/:reviewId", isLoggedIn, wrapAsync(async(req, res)=>{
+  let {id, reviewId} = req.params;
 
-    await newReview.save();
-    await listing.save();
+  await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
+  await Review.findByIdAndDelete(reviewId);
 
-    // console.log("New Review Saved");
-    // res.send("New Review Saved");
+  res.redirect(`/listings/${id}`);
+}));
 
-    req.flash("success", "New Review Created!!");
-    res.redirect(`/listings/${listing._id}`);
-  });
-  
-  //Delete Review Route
-  router.delete("/:reviewId", (async(req, res)=>{
-    let {id, reviewId}=req.params;
-  
-    await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
-    await Review.findById(reviewId);
-    req.flash("success", "Review Deleted!");
-    res.redirect(`/listings/${id}`);
-  }));
-  
-
-  module.exports = router;
+module.exports = router;
