@@ -64,6 +64,11 @@ body{
     margin-right: 1rem;
  }
 
+ .f-info-socials a{
+   text-decoration: none;
+   color: #222222;
+ }
+
  .f-info{
     display: flex;
     height: 8rem;

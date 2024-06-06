@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV != "production"){
+  require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,7 +18,7 @@ const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
 const { isLoggedIn , validateReview, isReviewAuthor} = require("./middleware.js");
 const Review = require("./models/review.js");                                                                                         
-require('dotenv').config();
+
 const Listing= require("./models/listing.js");
 const wrapAsync = require("./utils/wrapAsync.js");
 
@@ -24,7 +28,7 @@ const listingRouter = require("./routes/listing.js");
 const userRouter = require("./routes/user.js");
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
+const MONGO_URL = "mongodb://127.0.0.1:27017/horental";
 // const dbUrl = process.env.ATLASDB_URL;
 
 
@@ -46,15 +50,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
-
-// app.post("/listings/:id/reviews", (req, res)=>{
-//   console.log("working fine");
-// })
-
-
-
-
-
 
 const sessionOptions = {
   secret: "mysupersecretcode",
@@ -140,14 +135,12 @@ app.get("/login", (req, res) => {
 
 
 app.all("*", (req, res, next)=> {
-  console.log("error");
   next(new ExpressError(404, "Page Not Found!"));
 });
 
 //middleware for error handling
 app.use((err, req, res, next) => {
   let {statusCode=500, message = "Something went wrong!" } = err;
-  console.error(err);
   res.status(statusCode).render("error.ejs", {message});
 
 })
