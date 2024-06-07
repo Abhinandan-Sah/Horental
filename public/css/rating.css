@@ -195,3 +195,16 @@
     -webkit-transition: background-position .7s;
     transition: background-position .7s;
   }
+
+  /* show Reviews */
+.starability-result {
+  word-wrap: break-word ;
+}
+
+/* For small screens, e.g., mobile devices */
+@media (min-width: 300) and (max-width: 415px) {
+  .starability-result {
+    font-size: 0.8em ; /* adjust the font size to fit the card-body */
+  }
+}
+/* End of show review sections */

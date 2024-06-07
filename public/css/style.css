@@ -132,6 +132,26 @@ body{
    display: flex;
 }
 
+@media only screen and (min-width:200px) and (max-width: 300px) {
+   .card{
+      width: 15rem !important;
+   }
+   .card-img-top{
+      width: 100% !important;
+   object-fit: cover !important;
+   }
+ }
+
+@media only screen and (min-width:300px) and (max-width: 415px) {
+   .card{
+      width: 20rem !important;
+   }
+   .card-img-top{
+      width: 100% !important;
+   object-fit: cover !important;
+   }
+ }
+
 @media only screen and (min-width:415px) and (max-width: 650px) {
    .card{
       width: 30rem !important;
@@ -141,6 +161,7 @@ body{
    object-fit: cover !important;
    }
  }
+
 
  /* Index page Style  */
  #filters{
