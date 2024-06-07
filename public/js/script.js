@@ -17,3 +17,19 @@
       }, false)
     })
   })()
+
+
+  //Index.ejs file GST toggle button
+  let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+  let taxInfo = document.getElementsByClassName("tax-info");
+  taxSwitch.addEventListener("click", ()=>{
+    for(info of taxInfo){
+        if(info.style.display != "inline"){
+            info.style.display= "inline";
+        }
+        else{
+            info.style.display= "none";
+        }
+        
+    }
+  });

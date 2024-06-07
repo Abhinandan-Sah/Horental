@@ -8,10 +8,10 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup" >
+    <div class="navbar-nav collapse navbar-collapse" id="navbarNavAltMarkup" >
       <form class="m-auto d-flex my-2 my-lg-0 position-absolute top-50 start-50 translate-middle">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
+        <input class="form-control me-2 search-input" type="search" placeholder="Search Destinations">
+        <button class="btn search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i>Search</button>
       </form>
       
       <div class="navbar-nav">
@@ -24,11 +24,11 @@
 
       <div class="navbar-nav ms-auto nav-left">
         <% if(!currUser) { %>
-        <a class="nav-link" href="/signup">Sign Up</a>
-        <a class="nav-link" href="/login">Log In</a>
+        <a class="nav-link" href="/signup"><b>Sign Up</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
         <% } %>
         <% if(currUser) { %>
-        <a class="nav-link" href="/logout">Log Out</a>
+        <a class="nav-link" href="/logout"><b>Log Out</b></a>
         <% } %>
         <a href="/book" class="btn edit-btn py-2">Book now</a>
       </div>
