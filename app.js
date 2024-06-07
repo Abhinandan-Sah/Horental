@@ -47,7 +47,20 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SECRET 
+  },
+  touchAfter: 24*3600,
+});
+
+store.on("error", ()=>{
+  console.log("Error in Mongo Session store", err);
+})
+
 const sessionOptions = {
+  store,
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
@@ -56,8 +69,9 @@ const sessionOptions = {
     maxAge: 7*24*60*60*1000,
     httpOnly:true,
   }
-
 }
+
+
 
 app.use(session(sessionOptions));
 app.use(flash()); 

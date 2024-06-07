@@ -246,14 +246,14 @@ body{
 
 /* nav Search btn style */
 .search-btn{
-   background-color: #fe424d;
-   color: #fff;
+   background-color: #fe424d !important;
+   color: #fff !important;
    border-radius: 25px;
    padding: 0rem 1rem 0rem 1rem;
  }
  .search-btn:hover{
-   background-color: #fe424d;
-   color: #fff;
+   background-color: #fe424d !important;
+   color: #fff !important;
  }
  .search-btn i{
    display: inline;
