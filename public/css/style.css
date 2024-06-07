@@ -172,7 +172,76 @@ body{
    margin-left: 2rem;
    display: flex;
    align-items: center;
+   margin-top: 1rem;
 }
+
+ /* Media Queries for responsiveness */
+ @media (max-width: 600px) {
+   .filter:nth-child(n+3) {
+       display: none;
+   }
+   .tax-toggle label {
+       font-size: 10px;
+   }
+   .tax-toggle input {
+       transform: scale(0.6);
+       
+   }
+   .tax-toggle{
+      padding: 0.1rem 0.2rem !important;
+      margin-left: -0.4rem;
+   }
+   .tax-toggle .form-check-label{
+      padding: 0.2rem 0.1rem !important;
+   }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+   .filter:nth-child(n+7) {
+       display: none;
+   }
+   .tax-toggle label {
+       font-size: 14px;
+   }
+   .tax-toggle input {
+       transform: scale(0.9);
+   }
+   
+}
+
+@media (min-width: 769px) and (max-width: 1440px) {
+   .filter:nth-child(n+10) {
+       display: none;
+   }
+   .tax-toggle label {
+       font-size: 16px;
+   }
+   .tax-toggle input {
+       transform: scale(1);
+   }
+   
+}
+@media (min-width: 992px) and (max-width: 1200px) {
+   .tax-toggle{
+      margin-left: -2rem;
+      
+   }
+}
+
+@media (min-width: 1441px) {
+   .filter:nth-child(n+12) {
+       display: none;
+   }
+   .tax-toggle label {
+       font-size: 18px;
+   }
+   .tax-toggle input {
+       transform: scale(1.1);
+   }
+   
+}
+
+
 /* **End of index page style** */
 
 /* nav Search btn style */

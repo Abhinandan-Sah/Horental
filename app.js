@@ -28,7 +28,7 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 
-// const MONGO_URL = "mongodb://127.0.0.1:27017/horental";
+const MONGO_URL = "mongodb://127.0.0.1:27017/horental";
 const dbUrl = process.env.ATLASDB_URL;
 
 
@@ -41,7 +41,7 @@ main()
   });
 
   async function main() {
-    await mongoose.connect(dbUrl);
+    await mongoose.connect(MONGO_URL);
   }
 
 app.set("view engine", "ejs");
@@ -81,30 +81,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Review Section
-app.post("/listings/:id/reviews", isLoggedIn, wrapAsync(async(req, res)=>{
-  const {id} = req.params.id;
-  let listing = await Listing.findById(req.params.id);
-  let newReview = new Review(req.body.review);
-  newReview.author = req.user._id;
-  listing.reviews.push(newReview);
-  await newReview.save();
-  await listing.save();
-  req.flash("success", "New Review Created!");
-  res.redirect(`/listings/${listing._id}`);
-}));
 
-
-app.delete("/listings/:id/reviews/:reviewId", isLoggedIn, isReviewAuthor, wrapAsync(async(req, res)=>{
-  let {id, reviewId} = req.params;
-
-  await Listing.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
-  await Review.findByIdAndDelete(reviewId);
-  req.flash("error", "Review has been Successfully deleted!");
-  res.redirect(`/listings/${id}`);
-}));
-// Ending of Review Section
-// app.use("/listings/:id/reviews", reviewRouter);
+app.use("/listings/:id/reviews", reviewRouter);
 app.use("/listings", listingRouter);
 app.use("/", userRouter);
 
