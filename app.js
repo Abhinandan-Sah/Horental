@@ -1,7 +1,3 @@
-if(process.env.NODE_ENV != "production"){
-  require('dotenv').config();
-}
-
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -21,14 +17,14 @@ const Review = require("./models/review.js");
 
 const Listing= require("./models/listing.js");
 const wrapAsync = require("./utils/wrapAsync.js");
-
+require('dotenv').config();
 
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/horental";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/horental";
 const dbUrl = process.env.ATLASDB_URL;
 
 
@@ -41,7 +37,7 @@ main()
   });
 
   async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
   }
 
 app.set("view engine", "ejs");
