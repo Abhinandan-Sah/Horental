@@ -24,12 +24,12 @@ const wrapAsync = require("./utils/wrapAsync.js");
 
 
 const listingRouter = require("./routes/listing.js");
-// const reviewRouter = require("./routes/review.js");
+const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/horental";
-// const dbUrl = process.env.ATLASDB_URL;
+// const MONGO_URL = "mongodb://127.0.0.1:27017/horental";
+const dbUrl = process.env.ATLASDB_URL;
 
 
 main()
@@ -41,7 +41,7 @@ main()
   });
 
   async function main() {
-    await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
   }
 
 app.set("view engine", "ejs");
@@ -52,7 +52,7 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 const sessionOptions = {
-  secret: "mysupersecretcode",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -104,9 +104,8 @@ app.delete("/listings/:id/reviews/:reviewId", isLoggedIn, isReviewAuthor, wrapAs
   res.redirect(`/listings/${id}`);
 }));
 // Ending of Review Section
-
-app.use("/listings", listingRouter);
 // app.use("/listings/:id/reviews", reviewRouter);
+app.use("/listings", listingRouter);
 app.use("/", userRouter);
 
 
