@@ -2,7 +2,7 @@
   "engines": {
     "node": "18.17.0"
   },
-  "name": "Comfort-Your-Booking",
+  "name": "Horental",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
