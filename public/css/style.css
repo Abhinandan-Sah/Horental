@@ -157,8 +157,8 @@ body{
    }
    .card img{
       width: 100%;
-      height: auto;
-      aspect-ratio: attr(width) / attr(height);
+      height: auto; /* or height: 100% */
+      object-fit: cover;
    }
  }
 
