@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/home"><img src="../img/confort-logo.png" width="100px" height="80px"
-        alt="Confort logo"></a>
+    <a class="navbar-brand" href="/home"><img src="https://res.cloudinary.com/dl4rdt9w0/image/upload/horental_DEV/horental-logo.png" width="200px" height="125px"
+        alt="Horental-logo"></a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +15,7 @@
       </form>
       
       <div class="navbar-nav">
-        <a class="nav-link" href="/home">Home</a>
+        <!-- <a class="nav-link" href="/home">Home</a> -->
         <a class="nav-link" href="/listings">Explore</a>
         <a class="nav-link" href="/listings/new">List your home</a>
       </div>
@@ -23,11 +23,11 @@
       
 
       <div class="navbar-nav ms-auto nav-left">
-        <% if(!currUser) { %>
+        <% if(typeof currUser === 'undefined' || !currUser) { %>
         <a class="nav-link" href="/signup"><b>Sign Up</b></a>
         <a class="nav-link" href="/login"><b>Login</b></a>
         <% } %>
-        <% if(currUser) { %>
+        <% if(typeof currUser !== 'undefined' && currUser) { %>
         <a class="nav-link" href="/logout"><b>Log Out</b></a>
         <% } %>
         <a href="/book" class="btn edit-btn py-2">Book now</a>

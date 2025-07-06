@@ -85,9 +85,9 @@ passport.deserializeUser(User.deserializeUser());
 
 
 app.use((req, res, next) => {
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
-  res.locals.currUser = req.user;
+  res.locals.success = req.flash("success") || [];
+  res.locals.error = req.flash("error") || [];
+  res.locals.currUser = req.user || null;
   next();
 });
 
@@ -103,12 +103,9 @@ app.use("/", userRouter);
 
 // Home page
 app.get("/", (req, res) => {
-  res.render("listings/home.ejs");
+  res.redirect("/listings");
 });
-// Home page
-app.get("/home", (req, res) => {
-  res.render("listings/home.ejs");
-});
+
 // Book listing page
 app.get("/book", isLoggedIn, (req, res) => {
   res.render("listings/book.ejs");
@@ -132,6 +129,6 @@ app.use((err, req, res, next) => {
 
 })
 
-app.listen(8080, () => {
+app.listen(8000, () => {
   console.log("server is listening to port 8080");
 });
